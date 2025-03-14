@@ -2,20 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+html{
+  scroll-behavior: smooth;
+  background-color: var(--background);
+}
 :root {
-  --background: #ffffff;
+ 
   --foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #000;
+    
   }
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  
   font-family: Arial, Helvetica, sans-serif;
+}
+
+#tsparticles {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+#hsimg{
+  filter: drop-shadow(0 10px 100px #45ffff);
 }
