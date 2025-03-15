@@ -7,6 +7,12 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'robot': ["ROBOT", "sans-serif"],
+        'game': ["GAME", "sans-serif"],
+        'designer': ["DESIGNER", "sans-serif"],
+        'ka1': ["KA1", "sans-serif"],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",

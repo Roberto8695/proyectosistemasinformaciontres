@@ -9,7 +9,7 @@ const MvvSection = () => {
     <section id='mvvsection' className="py-12 ">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl text-white md:text-4xl font-bold">Nuestra Misión, Visión y Valores</h2>
+          <h2 className="text-3xl text-white md:text-4xl font-bold font-designer">Nuestra Misión, Visión y Valores</h2>
         </div>
         <div className="flex flex-wrap -mx-4">
           <div className="w-full md:w-1/3 px-4 mb-8 md:mb-0">

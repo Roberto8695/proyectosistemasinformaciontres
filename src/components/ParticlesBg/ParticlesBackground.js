@@ -207,7 +207,7 @@ const ParticlesBackground = () => {
       }
     },
     "color": {
-      "value": "#45ffff",
+      "value": "#FF5733",
       "animation": {
         "h": {
           "count": 0,
@@ -482,7 +482,7 @@ const ParticlesBackground = () => {
     "links": {
       "blink": false,
       "color": {
-        "value": "#45ffff"
+        "value": "#FF5733"
       },
       "consent": false,
       "distance": 150,

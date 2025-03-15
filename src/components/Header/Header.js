@@ -16,19 +16,19 @@ const Header = () => {
         
         <nav className="hidden md:flex space-x-8">
           <Link className='hover:animate-pulse' href="/">
-            <span className="text-white font-semibold text-lg hover:text-[#45ffff]">Inicio</span>
+            <span className="text-white font-designer  text-lg hover:text-[#45ffff]">Inicio</span>
           </Link>
           <Link className='hover:animate-pulse' href="/">
-            <span className="text-white font-semibold text-lg hover:text-[#45ffff]">Nosotros</span>
+            <span className="text-white font-designer  text-lg hover:text-[#45ffff]">Nosotros</span>
           </Link>
           <Link className='hover:animate-pulse' href="/">
-            <span className="text-white font-semibold text-lg hover:text-[#45ffff]">Servicios</span>
+            <span className="text-white font-designer text-lg hover:text-[#45ffff]">Servicios</span>
           </Link>
           <Link className='hover:animate-pulse' href="/">
-            <span className="text-white font-semibold text-lg hover:text-[#45ffff]">Contacto</span>
+            <span className="text-white font-designer text-lg hover:text-[#45ffff]">Contacto</span>
           </Link>
         </nav>
-        <div className="text-2xl font-bold">
+        <div className="text-2xl font-ka1 font-bold">
           <Link href="/">
             <span className='text-white'>Los Miserables</span>
           </Link>
@@ -45,16 +45,16 @@ const Header = () => {
         <div className="md:hidden bg-black ">
           <nav className="px-2 pt-2 pb-4 space-y-1 animate-slide-in">
             <Link href="/">
-              <span className="block animate-slide-one text-white hover:text-gray-300 transition duration-300 ease-in-out transform translate-x-0 delay-[100ms] border-b border-gray-300">Inicio</span>
+              <span className="block animate-slide-one font-designer text-white hover:text-gray-300 transition duration-300 ease-in-out transform translate-x-0 delay-[100ms] border-b border-gray-300">Inicio</span>
             </Link>
             <Link href="/">
-              <span className="block animate-slide-two pt-2 text-white hover:text-gray-300 transition duration-300 ease-in-out transform translate-x-0 delay-[200ms] border-b border-gray-300">Nosotros</span>
+              <span className="block animate-slide-two font-designer pt-2 text-white hover:text-gray-300 transition duration-300 ease-in-out transform translate-x-0 delay-[200ms] border-b border-gray-300">Nosotros</span>
             </Link>
             <Link href="/">
-              <span className="block animate-slide-three pt-2 text-white hover:text-gray-300 transition duration-300 ease-in-out transform translate-x-0 delay-[300ms] border-b border-gray-300">Servicios</span>
+              <span className="block animate-slide-three font-designer pt-2 text-white hover:text-gray-300 transition duration-300 ease-in-out transform translate-x-0 delay-[300ms] border-b border-gray-300">Servicios</span>
             </Link>
             <Link href="/">
-              <span className="block animate-slide-four pt-2 text-white hover:text-gray-300 transition duration-300 ease-in-out transform translate-x-0 delay-[400ms] border-b border-gray-300">Contacto</span>
+              <span className="block animate-slide-four font-designer pt-2 text-white hover:text-gray-300 transition duration-300 ease-in-out transform translate-x-0 delay-[400ms] border-b border-gray-300">Contacto</span>
             </Link>
           </nav>
         </div>

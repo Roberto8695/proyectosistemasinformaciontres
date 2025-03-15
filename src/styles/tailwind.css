@@ -2,6 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@font-face {
+  font-family: 'ROBOT';
+  src: url('../assets/fonts/robot.ttf');
+  
+}
+
+@font-face {
+  font-family: 'GAME';
+  src: url('../assets/fonts/GAME.ttf');
+  
+}
+
+@font-face {
+  font-family: 'CHOPSIC';
+  src: url('../assets/fonts/Chopsic.otf');
+  
+}
+@font-face {
+  font-family: 'DESIGNER';
+  src: url('../assets/fonts/Designer.otf');
+  
+}
+
+@font-face {
+  font-family: 'KA1';
+  src: url('../assets/fonts/ka1.ttf');
+  
+}
+
+
 @keyframes slide-in {
   0% {
     transform: translateX(100%);
@@ -10,6 +41,7 @@
     transform: translateX(0);
   }
 }
+
 
 .animate-slide-in {
   animation: slide-in 0.8s ease-out forwards;
