@@ -1,9 +1,11 @@
+"use client";
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "../styles/tailwind.css";
 import Header from "@/components/Header/Header";
-import HeroSection from "@/components/HeroSection/HeroSection";
-import MvvSection from "@/components/AboutUs/MvvSection";
+import Footer from "@/components/Footer/Footer";
+import { usePathname } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,18 +18,26 @@ const geistMono = Geist_Mono({
 });
 
 
-export default function RootLayout() {
+
+export default function RootLayout({ children }) {
+  const pathname = usePathname();
+
+  const hideHeaderOn = ["/carrito", "/login", "/register"]; // Puedes agregar más rutas si quieres ocultarlo en otras
+  const shouldHideHeader = hideHeaderOn.includes(pathname);
+
+  const hideFooterOn = ["/carrito", "/login", "/register"]; // Puedes agregar más rutas si quieres ocultarlo en otras
+  const shouldHideFooter = hideFooterOn.includes(pathname);
   return (
     <html lang="en">
-       
-    
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-       
-        <Header/>
-        <HeroSection />
-        <MvvSection />
+        {/* Muestra el Header solo si NO es /carrito */}
+        {!shouldHideHeader && <Header />}
+
+        <main>{children}</main>
+
+        {!shouldHideFooter && <Footer />}
       </body>
     </html>
   );

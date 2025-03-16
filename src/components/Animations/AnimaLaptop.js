@@ -22,7 +22,7 @@ export default function AnimaLaptop(props) {
       ref={group}
       object={scene}
       scale={0.5} // Puedes ajustar el tamaño
-      position={[0, -1.5, 0]} // Puedes moverlo en el eje Y si quieres centrarlo mejor
+      position={[0, -1, 0]} // Puedes moverlo en el eje Y si quieres centrarlo mejor
       {...props}
     />
   )

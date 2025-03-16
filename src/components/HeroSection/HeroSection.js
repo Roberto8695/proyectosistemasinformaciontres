@@ -34,7 +34,7 @@ const HeroSection = () => {
       {/* Contenedor principal */}
       <div className="container  mx-auto px-4 relative w-full h-full flex flex-col md:block">
         {/* Sección del Modelo 3D para móviles - Ahora en la parte superior */}
-        <div ref={modelRef} className="md:hidden w-full h-[40vh] flex items-center justify-center pt-8 z-50">
+        <div ref={modelRef} className="md:hidden w-full h-[40vh] flex items-center justify-center pt-8 ">
           <Canvas 
             className="model-canvas "
             style={{ width: '100%', height: '100%' }} 
@@ -109,7 +109,7 @@ const HeroSection = () => {
         </div>
 
         {/* Sección del Modelo 3D para desktop */}
-        <div className="hidden md:block md:absolute md:right-0 md:top-0 md:w-3/5 md:h-screen">
+        <div className="hidden  md:block md:absolute md:right-0 md:top-0 md:w-3/5 md:h-screen">
           <Canvas 
             className="model-canvas"
             style={{ width: '100%', height: '100%' }} 
@@ -130,8 +130,8 @@ const HeroSection = () => {
               shadow-camera-bottom={-10}
             />
             <SpotLight
-              position={[0, 3, 0]}
-              angle={1}
+              position={[0, 3.5, 0]}
+              angle={0.7}
               penumbra={1}
               intensity={2}
               distance={20}
@@ -156,7 +156,7 @@ const HeroSection = () => {
 
       {/* Icono de scroll - Ajustado para siempre estar visible */}
       <div className="absolute bottom-4 md:bottom-10 animate-bounce z-20">
-        <a href='#mvvsection' aria-label="Desplazar hacia abajo">
+        <a href='#MarcasSection' aria-label="Desplazar hacia abajo">
           <svg className="w-8 h-8 md:w-10 md:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
           </svg>

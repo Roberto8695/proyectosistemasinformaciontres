@@ -11,7 +11,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-transparent  absolute top-0 left-0 w-full  z-20">
+    <header className="bg-transparent  absolute top-0 left-0 w-full  z-50">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center ">
         
         <nav className="hidden md:flex space-x-8">
@@ -19,10 +19,10 @@ const Header = () => {
             <span className="text-white font-designer  text-lg hover:text-[#45ffff]">Inicio</span>
           </Link>
           <Link className='hover:animate-pulse' href="/">
-            <span className="text-white font-designer  text-lg hover:text-[#45ffff]">Nosotros</span>
+            <span className="text-white font-designer  text-lg hover:text-[#45ffff]">Productos</span>
           </Link>
-          <Link className='hover:animate-pulse' href="/">
-            <span className="text-white font-designer text-lg hover:text-[#45ffff]">Servicios</span>
+          <Link className='hover:animate-pulse' href="/carrito">
+            <span className="text-white font-designer text-lg hover:text-[#45ffff]">Carrito</span>
           </Link>
           <Link className='hover:animate-pulse' href="/">
             <span className="text-white font-designer text-lg hover:text-[#45ffff]">Contacto</span>

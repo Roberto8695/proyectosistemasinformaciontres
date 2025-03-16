@@ -12,6 +12,7 @@ export default {
         'game': ["GAME", "sans-serif"],
         'designer': ["DESIGNER", "sans-serif"],
         'ka1': ["KA1", "sans-serif"],
+        'contm': ["CONTM", "sans-serif"],
       },
       colors: {
         background: "var(--background)",

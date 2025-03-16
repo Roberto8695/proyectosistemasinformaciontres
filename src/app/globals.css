@@ -26,6 +26,9 @@ body {
 h3{
   font-family: designer;
 }
+p{
+  font-family: contm;
+}
 #tsparticles {
   height: 100%;
   width: 100%;

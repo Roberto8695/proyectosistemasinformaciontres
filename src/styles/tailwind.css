@@ -31,7 +31,11 @@
   src: url('../assets/fonts/ka1.ttf');
   
 }
-
+@font-face {
+  font-family: 'CONTM';
+  src: url('../assets/fonts/contm.ttf');
+  
+}
 
 @keyframes slide-in {
   0% {
