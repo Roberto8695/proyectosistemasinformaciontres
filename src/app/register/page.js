@@ -29,7 +29,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col md:flex-row">
+    <div className="min-h-screen w-full flex flex-col md:flex-row font-contm">
         <Link 
         href="/" 
         className="absolute top-6 left-6 z-30 flex items-center gap-2 bg-black/50 backdrop-blur-sm text-white py-2 px-4 rounded-lg border border-gray-800 hover:border-red-500 transition-colors duration-300 group"

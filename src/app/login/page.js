@@ -43,15 +43,15 @@ export default function LoginPage() {
           <div className="relative  h-16 ">
           <span className="font-ka1 text-center text-4xl text-white">Los miserables</span>
           </div>
-          <h1 className="text-4xl font-bold text-white mb-4">
+          <h2 className="text-4xl font-bold text-white mb-4">
             <span className="text-red-500">NEXT</span> LEVEL GAMING
-          </h1>
+          </h2>
           <p className="text-gray-300 max-w-md mb-6">
             Únete a la comunidad gaming más grande y accede a ofertas exclusivas, seguimiento de pedidos y mucho más.
           </p>
-          <div className="space-y-3 text-sm text-gray-400">
-            <div className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
+          <div className="space-y-3 font-contm text-sm text-gray-400">
+            <div className="flex  items-center gap-2">
+              <div className="w-1.5 h-1.5 rounded-full  bg-red-500"></div>
               <span>Ofertas exclusivas para miembros</span>
             </div>
             <div className="flex items-center gap-2">
@@ -99,7 +99,7 @@ export default function LoginPage() {
             {/* Formulario real */}
             <form onSubmit={handleSubmit} className="relative z-10 space-y-6">
               {/* Campo de email */}
-              <div className="space-y-2">
+              <div className="space-y-2 font-contm">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-400">
                   Correo electrónico
                 </label>
@@ -120,7 +120,7 @@ export default function LoginPage() {
               </div>
 
               {/* Campo de contraseña */}
-              <div className="space-y-2">
+              <div className="space-y-2 font-contm">
                 <label htmlFor="password" className="block text-sm font-medium text-gray-400">
                   Contraseña
                 </label>
@@ -148,7 +148,7 @@ export default function LoginPage() {
               </div>
 
               {/* Opciones adicionales */}
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between font-contm">
                 <div className="flex items-center">
                   <input
                     id="remember-me"
@@ -169,13 +169,13 @@ export default function LoginPage() {
               {/* Botón de inicio de sesión */}
               <button
                 type="submit"
-                className="w-full py-3 px-4 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-600 text-white font-medium rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-600/30 flex items-center justify-center"
+                className="w-full font-contm py-3 px-4 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-600 text-white font-medium rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-600/30 flex items-center justify-center"
               >
                 Iniciar sesión
               </button>
 
               {/* Separador */}
-              <div className="flex items-center my-4">
+              <div className="flex font-contm items-center my-4">
                 <div className="flex-1 h-px bg-gray-700"></div>
                 <span className="px-4 text-sm text-gray-500">O continúa con</span>
                 <div className="flex-1 h-px bg-gray-700"></div>
