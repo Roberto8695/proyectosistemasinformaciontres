@@ -22,10 +22,10 @@ const geistMono = Geist_Mono({
 export default function RootLayout({ children }) {
   const pathname = usePathname();
 
-  const hideHeaderOn = ["/carrito", "/login", "/register"]; // Puedes agregar más rutas si quieres ocultarlo en otras
+  const hideHeaderOn = ["/carrito", "/login", "/register", "/dashboard"]; // Puedes agregar más rutas si quieres ocultarlo en otras
   const shouldHideHeader = hideHeaderOn.includes(pathname);
 
-  const hideFooterOn = ["/carrito", "/login", "/register"]; // Puedes agregar más rutas si quieres ocultarlo en otras
+  const hideFooterOn = ["/carrito", "/login", "/register", "/dashboard"]; // Puedes agregar más rutas si quieres ocultarlo en otras
   const shouldHideFooter = hideFooterOn.includes(pathname);
   return (
     <html lang="en">
