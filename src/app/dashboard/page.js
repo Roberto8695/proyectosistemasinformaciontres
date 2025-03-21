@@ -173,9 +173,7 @@ const Dashboard = () => {
       {/* Sidebar */}
       <div className="w-64 bg-gray-900 shadow-lg">
         <div className="p-6 border-b border-gray-800">
-        <div className="relative  h-16 ">
-          <span className="font-ka1 text-center text-2xl text-white">Los miserables</span>
-          </div>
+          <h1 className="text-2xl font-bold text-red-500">TechStore</h1>
           <p className="text-sm text-gray-400 mt-1">Panel de Administración</p>
         </div>
         
