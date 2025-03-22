@@ -34,7 +34,7 @@ const BannerUno = ({ promotion }) => {
       {/* Fondo del banner con gradiente oscuro */}
       <div className="absolute inset-0 bg-gradient-to-r from-black to-gray-900">
         {/* Imagen de fondo con opacidad reducida */}
-        <div className="absolute inset-0 opacity-30 mix-blend-overlay">
+        <div className="absolute inset-0 opacity-95 mix-blend-overlay">
           <Image
             src={backgroundImage}
             alt="Banner background"
