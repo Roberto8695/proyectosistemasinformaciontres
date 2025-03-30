@@ -2,15 +2,23 @@ const { pool } = require('../config/db');
 
 // Obtener todos los detalles de un carrito específico
 const getDetallesByCarritoId = async (carritoId) => {
-  const result = await pool.query(`
-    SELECT dc.*, p.nombre, p.imagen, m.nombre as marca_nombre
-    FROM detalle_carrito dc
-    JOIN producto p ON dc.id_producto = p.id_producto
-    LEFT JOIN marca m ON p.id_marca = m.id_marca
-    WHERE dc.id_carrito = $1
-    ORDER BY dc.fecha_agregado DESC
-  `, [carritoId]);
-  return result.rows;
+  try {
+    const result = await pool.query(
+      `SELECT dc.*, p.nombre, p.imagen, m.nombre as marca_nombre
+       FROM detalle_carrito dc
+       JOIN producto p ON dc.id_producto = p.id_producto
+       LEFT JOIN marca m ON p.id_marca = m.id_marca
+       WHERE dc.id_carrito = $1
+       ORDER BY dc.fecha_agregado DESC`,
+      [carritoId]
+    );
+    
+    return result.rows;
+  } catch (error) {
+    console.error('Error al obtener detalles del carrito:', error);
+    // En caso de error, devolver un array vacío
+    return [];
+  }
 };
 
 // Obtener un detalle específico por su ID
@@ -117,6 +125,48 @@ const getCarritoTotal = async (carritoId) => {
   return result.rows[0].total || 0;
 };
 
+// Crear un nuevo detalle de carrito
+const create = async (id_carrito, id_producto, cantidad) => {
+  try {
+    // Obtener el precio del producto
+    const [producto] = await pool.query(
+      'SELECT precio, precio_oferta FROM producto WHERE id_producto = ?',
+      [id_producto]
+    );
+    
+    if (!producto.length) {
+      throw new Error('Producto no encontrado');
+    }
+    
+    // Usar el precio de oferta si existe, de lo contrario usar el precio normal
+    const precioUnitario = producto[0].precio_oferta || producto[0].precio;
+    
+    // Calcular el total
+    const total = precioUnitario * cantidad;
+    
+    // Insertar el detalle
+    const [result] = await pool.query(
+      'INSERT INTO detalle_carrito (id_carrito, id_producto, cantidad, precio_unitario, total) VALUES (?, ?, ?, ?, ?)',
+      [id_carrito, id_producto, cantidad, precioUnitario, total]
+    );
+    
+    // Obtener el detalle completo con información del producto
+    const [detalle] = await pool.query(
+      `SELECT dc.*, p.nombre, p.imagen, m.nombre as marca_nombre
+       FROM detalle_carrito dc
+       JOIN producto p ON dc.id_producto = p.id_producto
+       LEFT JOIN marca m ON p.id_marca = m.id_marca
+       WHERE dc.id_detalle_carrito = ?`,
+      [result.insertId]
+    );
+    
+    return detalle[0];
+  } catch (error) {
+    console.error('Error al crear detalle de carrito:', error);
+    throw error;
+  }
+};
+
 module.exports = {
   getDetallesByCarritoId,
   getDetalleById,
@@ -124,5 +174,6 @@ module.exports = {
   updateDetalleCarrito,
   removeProductFromCarrito,
   clearCarrito,
-  getCarritoTotal
+  getCarritoTotal,
+  create
 };

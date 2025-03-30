@@ -6,6 +6,7 @@ import "../styles/tailwind.css";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import { usePathname } from "next/navigation";
+import CarritoProviderWrapper from '../components/Providers/CarritoProviderWrapper';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,8 +17,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -32,12 +31,14 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* Muestra el Header solo si NO es /carrito */}
-        {!shouldHideHeader && <Header />}
+        <CarritoProviderWrapper>
+          {/* Muestra el Header solo si NO es /carrito */}
+          {!shouldHideHeader && <Header />}
 
-        <main>{children}</main>
+          <main>{children}</main>
 
-        {!shouldHideFooter && <Footer />}
+          {!shouldHideFooter && <Footer />}
+        </CarritoProviderWrapper>
       </body>
     </html>
   );

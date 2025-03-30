@@ -26,15 +26,53 @@ export const CarritoProvider = ({ children }) => {
   // Inicializar el carrito al cargar la página
   useEffect(() => {
     const initCarrito = async () => {
-      // Intentar obtener el ID del carrito del localStorage
-      const storedCarritoId = localStorage.getItem('carritoId');
-      
-      if (storedCarritoId) {
-        setCarritoId(parseInt(storedCarritoId));
-        await cargarItemsCarrito(parseInt(storedCarritoId));
-      } else {
-        // Si no hay ID de carrito, crear uno nuevo
-        await crearNuevoCarrito();
+      try {
+        // Intentar obtener el ID del carrito del localStorage
+        const storedCarritoId = localStorage.getItem('carritoId');
+        const storedItems = localStorage.getItem('carritoItems');
+        
+        if (storedCarritoId) {
+          setCarritoId(parseInt(storedCarritoId));
+          
+          if (storedItems) {
+            try {
+              const parsedItems = JSON.parse(storedItems);
+              setItems(parsedItems);
+              
+              // Calcular el total
+              const calculatedTotal = parsedItems.reduce((sum, item) => sum + (item.total || 0), 0);
+              setTotal(calculatedTotal);
+            } catch (parseErr) {
+              console.error('Error al parsear items del localStorage:', parseErr);
+              setItems([]);
+              setTotal(0);
+            }
+          } else {
+            // Intentar cargar desde el servidor
+            try {
+              await cargarItemsCarrito(parseInt(storedCarritoId));
+            } catch (err) {
+              console.error('Error al cargar items del servidor:', err);
+              setItems([]);
+              setTotal(0);
+            }
+          }
+        } else {
+          // Si no hay ID de carrito, crear uno nuevo
+          const newCarritoId = Date.now();
+          setCarritoId(newCarritoId);
+          localStorage.setItem('carritoId', newCarritoId.toString());
+          setItems([]);
+          setTotal(0);
+        }
+      } catch (err) {
+        console.error('Error al inicializar el carrito:', err);
+        // Crear un ID temporal para el carrito
+        const tempCarritoId = Date.now();
+        setCarritoId(tempCarritoId);
+        localStorage.setItem('carritoId', tempCarritoId.toString());
+        setItems([]);
+        setTotal(0);
       }
     };
     
@@ -56,9 +94,12 @@ export const CarritoProvider = ({ children }) => {
       setItems([]);
       setTotal(0);
       setError(null);
+      
+      return nuevoCarritoId;
     } catch (err) {
       console.error('Error al crear nuevo carrito:', err);
       setError('No se pudo crear un nuevo carrito');
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -70,43 +111,95 @@ export const CarritoProvider = ({ children }) => {
     
     try {
       setLoading(true);
-      const response = await apiClient.get(`/detalles/carrito/${id}`);
-      setItems(response.data);
       
-      // Calcular el total
-      const totalResponse = await apiClient.get(`/detalles/carrito/${id}/total`);
-      setTotal(totalResponse.data.total || 0);
-      
-      setError(null);
-    } catch (err) {
-      console.error('Error al cargar items del carrito:', err);
-      setError('No se pudieron cargar los productos del carrito');
-      setItems([]);
-      setTotal(0);
+      try {
+        const response = await apiClient.get(`/detalles/carrito/${id}`);
+        setItems(response.data || []);
+        
+        // Calcular el total
+        try {
+          const totalResponse = await apiClient.get(`/detalles/carrito/${id}/total`);
+          setTotal(totalResponse.data?.total || 0);
+        } catch (totalErr) {
+          console.error('Error al obtener el total del carrito:', totalErr);
+          // Calcular el total manualmente a partir de los items
+          const calculatedTotal = response.data?.reduce((sum, item) => sum + (item.total || 0), 0) || 0;
+          setTotal(calculatedTotal);
+        }
+        
+        setError(null);
+      } catch (err) {
+        console.error('Error al cargar items del carrito:', err);
+        
+        // Intentar recuperar items del localStorage
+        const storedItems = localStorage.getItem('carritoItems');
+        if (storedItems) {
+          try {
+            const parsedItems = JSON.parse(storedItems);
+            setItems(parsedItems);
+            
+            // Calcular el total
+            const calculatedTotal = parsedItems.reduce((sum, item) => sum + (item.total || 0), 0);
+            setTotal(calculatedTotal);
+          } catch (parseErr) {
+            console.error('Error al parsear items del localStorage:', parseErr);
+            setItems([]);
+            setTotal(0);
+          }
+        } else {
+          setItems([]);
+          setTotal(0);
+        }
+        
+        setError('No se pudieron cargar los productos del carrito');
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  // Añadir un producto al carrito
+  // Añadir un producto al carrito (modo offline)
   const agregarProducto = async (producto, cantidad = 1) => {
-    if (!carritoId) return;
-    
     try {
       setLoading(true);
-      const response = await apiClient.post('/detalles', {
+      
+      // Verificar si el producto ya existe en el carrito
+      const itemExistente = items.find(item => item.id_producto === producto.id_producto);
+      
+      if (itemExistente) {
+        // Si existe, actualizar la cantidad
+        const nuevaCantidad = itemExistente.cantidad + cantidad;
+        await actualizarCantidad(itemExistente.id_detalle_carrito, nuevaCantidad);
+        return;
+      }
+      
+      // Si no existe, crear un nuevo item
+      const nuevoItem = {
+        id_detalle_carrito: Date.now(),
         id_carrito: carritoId,
         id_producto: producto.id_producto,
-        cantidad
-      });
+        cantidad,
+        precio_unitario: producto.precio_oferta || producto.precio,
+        total: (producto.precio_oferta || producto.precio) * cantidad,
+        nombre: producto.nombre,
+        imagen: producto.imagen,
+        marca_nombre: producto.marca_nombre || producto.marca
+      };
       
-      // Actualizar los items del carrito
-      await cargarItemsCarrito(carritoId);
+      const nuevosItems = [...items, nuevoItem];
+      setItems(nuevosItems);
       
-      return response.data;
+      // Actualizar el total
+      const nuevoTotal = total + nuevoItem.total;
+      setTotal(nuevoTotal);
+      
+      // Guardar en localStorage
+      localStorage.setItem('carritoItems', JSON.stringify(nuevosItems));
+      
+      return nuevoItem;
     } catch (err) {
       console.error('Error al agregar producto al carrito:', err);
-      setError(err.response?.data?.error || 'No se pudo agregar el producto al carrito');
+      setError('No se pudo agregar el producto al carrito');
       throw err;
     } finally {
       setLoading(false);

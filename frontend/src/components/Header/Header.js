@@ -3,13 +3,14 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useCarrito } from '../../actions/carritoActions';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   
-  // Simulación de la cantidad de productos en el carrito (esto deberías reemplazarlo con tu lógica real)
-  const [cartItemCount, setCartItemCount] = useState(3);
+  // Usar el contexto del carrito para obtener la cantidad real de productos
+  const { cantidadTotal } = useCarrito();
   
   // Determinar si estamos en una página interna (no homepage)
   const isInternalPage = pathname !== '/';
@@ -24,53 +25,51 @@ const Header = () => {
         
         <nav className="hidden md:flex space-x-8">
           <Link className='hover:animate-pulse' href="/">
-            <span className={`text-white font-designer text-lg hover:text-red-500 transition-colors ${pathname === '/' ? 'text-red-500' : ''}`}>Inicio</span>
+            <span className={`font-designer text-white hover:text-red-500 transition-colors ${pathname === '/' ? 'text-red-500' : ''}`}>Inicio</span>
           </Link>
-          <Link className='hover:animate-pulse' href="/catalogo">
-            <span className={`text-white font-designer text-lg hover:text-red-500 transition-colors ${pathname === '/catalogo' ? 'text-red-500' : ''}`}>Catálogo</span>
+          <Link href="/catalogo">
+            <span className={`font-designer text-white hover:text-red-500 transition-colors ${pathname === '/catalogo' ? 'text-red-500' : ''}`}>Catálogo</span>
           </Link>
-          <Link className='hover:animate-pulse' href="/contacto">
-            <span className={`text-white font-designer text-lg hover:text-red-500 transition-colors ${pathname === '/contacto' ? 'text-red-500' : ''}`}>Contacto</span>
+          <Link href="/contacto">
+            <span className={`font-designer text-white hover:text-red-500 transition-colors ${pathname === '/contacto' ? 'text-red-500' : ''}`}>Contacto</span>
           </Link>
         </nav>
         
-        <div className="text-2xl font-ka1 font-bold">
-          <Link href="/">
-            <span className='text-white'>Los <span className="text-red-500">Miserables</span></span>
+        <div className="flex-1 flex justify-center md:justify-center">
+          <Link href="/" className="text-2xl font-bold text-white">
+            <span className="font-designer text-3xl">TECH<span className="text-red-500">ZONE</span></span>
           </Link>
         </div>
         
         <div className="hidden md:flex items-center space-x-6">
-          {/* Botón de inicio de sesión */}
-          <Link href="/login" className="text-white font-designer hover:text-red-500 transition-colors flex items-center space-x-1">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <Link href="/login" className="text-white hover:text-red-500 transition-colors">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
             </svg>
-            <span>Iniciar Sesión</span>
           </Link>
           
-          {/* Icono de carrito con contador */}
+          {/* Icono de carrito con contador real */}
           <Link href="/carrito" className="text-white hover:text-red-500 transition-colors relative">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
             </svg>
-            {cartItemCount > 0 && (
+            {cantidadTotal > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold animate-pulse">
-                {cartItemCount}
+                {cantidadTotal}
               </span>
             )}
           </Link>
         </div>
         
         <div className="md:hidden flex items-center space-x-4">
-          {/* Icono de carrito móvil */}
+          {/* Icono de carrito móvil con contador real */}
           <Link href="/carrito" className="text-white hover:text-red-500 transition-colors relative">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
             </svg>
-            {cartItemCount > 0 && (
+            {cantidadTotal > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold animate-pulse">
-                {cartItemCount}
+                {cantidadTotal}
               </span>
             )}
           </Link>

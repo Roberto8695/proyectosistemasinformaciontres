@@ -1,11 +1,15 @@
 "use client";
 
 import React, { useState } from 'react';
-import { FaShoppingCart, FaFire } from 'react-icons/fa';
+import { FaShoppingCart, FaFire, FaCheck } from 'react-icons/fa';
 import Link from 'next/link';
+import { useCarrito } from '../../actions/carritoActions';
 
 const ProductCard = ({ product }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
+  const { agregarProducto } = useCarrito();
   
   // Si no hay producto o no tiene precio, no renderizar nada o mostrar un placeholder
   if (!product || (product.precio === undefined && product.precio_oferta === undefined)) {
@@ -35,6 +39,28 @@ const ProductCard = ({ product }) => {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     });
+  };
+
+  // Manejar la adición al carrito
+  const handleAddToCart = async (e) => {
+    e.preventDefault(); // Prevenir navegación si está dentro de un enlace
+    
+    if (isAdding || isAdded) return;
+    
+    try {
+      setIsAdding(true);
+      await agregarProducto(product, 1);
+      setIsAdded(true);
+      
+      // Resetear el estado después de 2 segundos
+      setTimeout(() => {
+        setIsAdded(false);
+      }, 2000);
+    } catch (error) {
+      console.error('Error al agregar al carrito:', error);
+    } finally {
+      setIsAdding(false);
+    }
   };
 
   return (
@@ -135,10 +161,24 @@ const ProductCard = ({ product }) => {
             </span>
           </div>
           
-          <button className={`group flex items-center gap-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${
-            isHovered ? 'shadow-lg shadow-red-600/30' : ''
-          }`}>
-            <FaShoppingCart className="text-sm" />
+          <button 
+            onClick={handleAddToCart}
+            disabled={isAdding || isAdded}
+            className={`group flex items-center gap-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${
+              isHovered ? 'shadow-lg shadow-red-600/30' : ''
+            } ${
+              isAdded 
+                ? 'bg-green-500 text-white' 
+                : 'bg-red-500 hover:bg-red-600 text-white'
+            }`}
+          >
+            {isAdding ? (
+              <span className="animate-spin h-5 w-5 border-t-2 border-white rounded-full"></span>
+            ) : isAdded ? (
+              <FaCheck />
+            ) : (
+              <FaShoppingCart className="text-sm" />
+            )}
             <span className="text-sm">Añadir al carrito</span>
           </button>
         </div>

@@ -1,31 +1,30 @@
 const express = require('express');
+const router = express.Router();
 const { 
   obtenerDetallesCarrito,
-  agregarProductoAlCarrito,
+  addProductToCarrito,
   actualizarCantidadProducto,
   eliminarProductoDelCarrito,
   vaciarCarrito,
   obtenerTotalCarrito
 } = require('../controllers/detalleCarritoController');
 
-const router = express.Router();
-
 // Obtener todos los detalles de un carrito
-router.get('/carrito/:carritoId', obtenerDetallesCarrito);
+router.get('/carrito/:id', obtenerDetallesCarrito);
 
 // Obtener el total del carrito
-router.get('/carrito/:carritoId/total', obtenerTotalCarrito);
+router.get('/carrito/:id/total', obtenerTotalCarrito);
 
 // Añadir un producto al carrito
-router.post('/', agregarProductoAlCarrito);
+router.post('/', addProductToCarrito);
 
 // Actualizar la cantidad de un producto en el carrito
-router.put('/:detalleId', actualizarCantidadProducto);
+router.put('/:id', actualizarCantidadProducto);
 
 // Eliminar un producto del carrito
-router.delete('/:detalleId', eliminarProductoDelCarrito);
+router.delete('/:id', eliminarProductoDelCarrito);
 
 // Vaciar el carrito
-router.delete('/carrito/:carritoId', vaciarCarrito);
+router.delete('/carrito/:id', vaciarCarrito);
 
 module.exports = router;

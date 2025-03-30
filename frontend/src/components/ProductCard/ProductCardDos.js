@@ -3,10 +3,14 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaShoppingCart, FaHeart, FaStar, FaEye, FaBolt } from 'react-icons/fa';
+import { FaShoppingCart, FaHeart, FaStar, FaEye, FaBolt, FaCheck } from 'react-icons/fa';
+import { useCarrito } from '../../actions/carritoActions';
 
 const ProductCardDos = ({ product }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
+  const { agregarProducto } = useCarrito();
   
   // Si no hay producto, no renderizar nada
   if (!product) return null;
@@ -22,10 +26,36 @@ const ProductCardDos = ({ product }) => {
   
   // Formatear precio con separador de miles
   const formatPrice = (price) => {
+    if (typeof price !== 'number') {
+      return '0.00';
+    }
     return price.toLocaleString('es-ES', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     });
+  };
+
+  // Manejar la adición al carrito
+  const handleAddToCart = async (e) => {
+    e.preventDefault(); // Prevenir navegación si está dentro de un enlace
+    e.stopPropagation(); // Evitar que el evento se propague
+    
+    if (isAdding || isAdded) return;
+    
+    try {
+      setIsAdding(true);
+      await agregarProducto(product, 1);
+      setIsAdded(true);
+      
+      // Resetear el estado después de 2 segundos
+      setTimeout(() => {
+        setIsAdded(false);
+      }, 2000);
+    } catch (error) {
+      console.error('Error al agregar al carrito:', error);
+    } finally {
+      setIsAdding(false);
+    }
   };
 
   return (
@@ -64,9 +94,28 @@ const ProductCardDos = ({ product }) => {
         {/* Acciones overlay */}
         <div className={`absolute bottom-0 left-0 right-0 bg-black/70 backdrop-blur-sm py-3 px-4 transform transition-transform duration-300 ${isHovered ? 'translate-y-0' : 'translate-y-full'}`}>
           <div className="flex justify-between items-center">
-            <button className="bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors">
-              <FaShoppingCart size={14} />
-              <span>Añadir Al Carrito</span>
+            <button 
+              onClick={handleAddToCart}
+              disabled={isAdding || isAdded}
+              className={`text-white text-sm px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors ${
+                isAdded 
+                  ? 'bg-green-500' 
+                  : 'bg-red-500 hover:bg-red-600'
+              }`}
+            >
+              {isAdding ? (
+                <span className="animate-spin h-4 w-4 border-t-2 border-white rounded-full"></span>
+              ) : isAdded ? (
+                <>
+                  <FaCheck size={14} />
+                  <span>Añadido</span>
+                </>
+              ) : (
+                <>
+                  <FaShoppingCart size={14} />
+                  <span>Añadir Al Carrito</span>
+                </>
+              )}
             </button>
             
             <div className="flex gap-2">
@@ -99,9 +148,9 @@ const ProductCardDos = ({ product }) => {
         <div className="flex justify-between items-end pt-2">
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="text-lg font-bold text-white">${formatPrice(product.precio)}</span>
+              <span className="text-lg font-bold text-white">${formatPrice(hasDiscount ? product.precio_oferta : product.precio)}</span>
               {hasDiscount && (
-                <span className="text-sm text-gray-500 line-through">${formatPrice(product.precio_oferta)}</span>
+                <span className="text-sm text-gray-500 line-through">${formatPrice(product.precio)}</span>
               )}
             </div>
             
