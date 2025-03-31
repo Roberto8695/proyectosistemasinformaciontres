@@ -3,7 +3,10 @@ const nextConfig = {
   images: {
     domains: ['localhost'],
   },
-  // Otras configuraciones que ya tengas...
+  output: "export",
+  basePath: "",
+  assetPrefix: "./",
+  trailingSlash: true,
 }
 
 module.exports = nextConfig 
